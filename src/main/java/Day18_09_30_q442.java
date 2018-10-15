@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: gsj
@@ -10,8 +7,8 @@ import java.util.Map;
  */
 public class Day18_09_30_q442 {
     public static void main(String[] args) {
-        int[][] nums = new int[][] {{1,2},{3,4}};
-        q566_My(nums, 1, 4);
+        int[][] a = new int[0][4];
+        System.out.println(a[0].length);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -84,12 +81,20 @@ public class Day18_09_30_q442 {
         return rst;
     }
 
-    private static int[][] q566_My(int[][] nums, int r, int c) {
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // 自己写的有 bug ... 前面一部分有bug, 但是官方的第三种方法也就是我这种方法
+    public static int[][] q566_My(int[][] nums, int r, int c) {
+//        int row = nums.length;
+//        int col = nums[0].length;// 这里存在 num 行为 0 的情况，那么 num[0].length 就会超界限, 然后这行就会抛出异常...
+//        if (nums.length == 0 || row * col != r * c) {
+//            return nums;
+//        }
+
+        if (nums.length == 0 || nums.length * nums[0].length != r * c)
+            return nums;
         int row = nums.length;
         int col = nums[0].length;
-        if (row * col != r * c) {
-            return nums;
-        }
         int[][] rst = new int[r][c];
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -99,4 +104,48 @@ public class Day18_09_30_q442 {
         }
         return rst;
     }
+
+    // 使用队列, 很直观的过程, 一行行入队列, 再一行行出队列
+    public static int[][] q566_solutions_1(int[][] nums, int r, int c) {
+        if (nums.length == 0 || nums.length * nums[0].length != r * c)
+            return nums;
+        int row = nums.length;
+        int col = nums[0].length;
+        int[][] rst = new int[r][c];
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                queue.add(nums[i][j]);
+            }
+        }
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                rst[i][j] = queue.remove();
+            }
+        }
+        return rst;
+    }
+
+    // 也很简单的一个过程, 在遍历一个矩阵的同时加入两个指针, 用于标志第二个矩阵的界限
+    public static int[][] q566_solutions_2(int[][] nums, int r, int c) {
+        if (nums.length == 0 || nums.length * nums[0].length != r * c)
+            return nums;
+        int row = nums.length;
+        int col = nums[0].length;
+        int[][] rst = new int[r][c];
+        int rr = 0, cc = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                rst[rr][cc] = nums[i][j];
+                cc++;
+                if (cc == c) {
+                    rr++;
+                    cc = 0;
+                }
+            }
+        }
+        return rst;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 }
