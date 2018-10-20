@@ -12,7 +12,6 @@ public class Day18_10_20 {
         for (int i = 0; i < 2; i++) {
             rst[i] = v++;
         }
-//        Arrays.stream(rst).forEach(System.out::println);
         Arrays.stream(q667_solution(6, 4)).forEach(System.out::println);
     }
 
@@ -32,8 +31,8 @@ public class Day18_10_20 {
             rst[i] = v++;
         }
         for (int i = 0; i < k + 1; i++) {
-            // + n - k
-            rst[i + n - k - 1] = i % 2 == 0 ? (i / 2) + 1 + n - k : n - (i / 2) + n - k;
+            // + n - k - 1
+            rst[i + n - k - 1] = i % 2 == 0 ? (i / 2) + n - k : n - (i / 2);
         }
         return rst;
     }
