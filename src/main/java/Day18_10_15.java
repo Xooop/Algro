@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -19,9 +21,6 @@ public class Day18_10_15 {
 //                {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}
 //        };
 //        System.out.println(q695_My_new(A));
-        int[] A = new int[]{0,1,0,3,12};
-        q283_My(A);
-        Arrays.stream(A).forEach(System.out::println);
 
     }
 
@@ -77,10 +76,10 @@ public class Day18_10_15 {
     }
 
     private static class Position {
-        public int x;
-        public int y;
+        int x;
+        int y;
 
-        public Position(int x, int y) {
+        Position(int x, int y) {
             this.x = x;
             this.y = y;
         }
@@ -156,39 +155,5 @@ public class Day18_10_15 {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-
-    public static void q283_My(int[] nums) {
-        for (int i = 0; i < nums.length - 1; i++) {
-            boolean flag = false;
-            for (int j = 0; j < nums.length - i - 1; j++) {
-                if (flag || nums[j] == 0) {
-                    flag = true;
-                    if (nums[j + 1] == 0) {
-                        continue;
-                    }else {
-                        int tmp = nums[j + 1];
-                        nums[j + 1] = nums[j];
-                        nums[j] = tmp;
-                    }
-                }
-            }
-            flag = false;
-        }
-    }
-
-    public static void q283_solution(int[] nums) {
-        int[] rst = new int[nums.length];
-        int j = 0;
-        for (int i : nums) {
-            if (i != 0) {
-                rst[j] = i;
-                j++;
-            }
-        }
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] = rst[i];
-        }
-    }
-
 }
 
