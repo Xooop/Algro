@@ -1,5 +1,8 @@
+package code;
+
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author: gsj
@@ -8,7 +11,8 @@ import java.util.Set;
  */
 public class Day18_10_23 {
     public static void main(String[] args) {
-
+        Pattern pattern = Pattern.compile("[\\d]+[\\u4E00-\\u9FA5]*");
+        System.out.println(pattern.matcher("2345亿").matches());
     }
 
     private static boolean q217_My(int[] nums){
