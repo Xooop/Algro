@@ -1,5 +1,6 @@
-package code;
+package code.Array;
 
+import java.io.*;
 import java.util.Arrays;
 
 /**
@@ -9,8 +10,10 @@ import java.util.Arrays;
  */
 public class Day18_11_16_q287_marked {
     public static void main(String[] args) {
-        System.out.println(q287_solution(new int[]{1, 4, 6, 6, 6, 2, 3}));
+//        System.out.println(q287_solution(new int[]{1, 4, 6, 6, 6, 2, 3}));
+//        System.out.println(q268_My(new int[]{9, 6, 4, 2, 3, 5, 7, 0, 1}));
     }
+
     // -----------------------------------------------------------------------------------------------------------------
     private static int q287_My(int[] nums) {
         // -----------------------------------------------------------------------------------------------------------------
@@ -36,6 +39,7 @@ public class Day18_11_16_q287_marked {
         throw null;
         // -----------------------------------------------------------------------------------------------------------------
     }
+
     // -----------------------------------------------------------------------------------------------------------------
     // Floyd's Tortoise and Hare (Cycle Detection)
     // idx:  0 1 2 3 4 5 6
@@ -49,11 +53,24 @@ public class Day18_11_16_q287_marked {
         } while (tortoise != hare);
 
         int p = nums[0];
-        while(p != tortoise) {
+        while (p != tortoise) {
             p = nums[p];
             tortoise = nums[tortoise];
         }
         return tortoise;
     }
+
     // -----------------------------------------------------------------------------------------------------------------
+    private static int q268_My(int[] nums) throws IOException {
+        int total = (nums.length + 1) * (nums.length) / 2;
+        for (int num : nums) {
+            total -= num;
+        }
+        FileOutputStream outputStream = new FileOutputStream(new File("./1.txt"));
+        outputStream.flush();
+        return total;
+
+
+    }
+
 }

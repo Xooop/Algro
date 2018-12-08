@@ -1,4 +1,4 @@
-package code;
+package code.Array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class Day18_11_15 {
     public static void main(String[] args) {
-//        int[][] test = new int[][]{ {1,1,1},
-//                                    {1,0,1},
-//                                    {1,1,1}};
-        int[][] test = new int[][]{{1}};
-        int[][] rst = q661_My(test);
+        int[][] test = new int[][]{ {1,1,1},
+                                    {1,0,1},
+                                    {1,1,1}};
+//        int[][] test = new int[][]{{1}};
+        int[][] rst = q661_solution(test);
 //        System.out.println(q835_My());
         for (int i = 0; i < test.length; i++) {
             for (int j = 0; j < test[0].length; j++) {
@@ -61,11 +61,35 @@ public class Day18_11_15 {
         int sum = 0;
         int count = 0;
         for (Integer x : paramX) {
-            for (Integer y: paramY) {
+            for (Integer y : paramY) {
                 sum += M[i + x][j + y];
                 count++;
             }
         }
         return sum / count;
+    }
+    // -----------------------------------------------------------------------------------------------------------------
+    // 简洁、简单
+    private static int[][] q661_solution(int[][] M) {
+        if (M.length == 0) return null;
+        int[][] rst = new int[M.length][M[0].length];
+        for (int i = 0; i < M.length; i++) {
+            for (int j = 0; j < M[0].length; j++) {
+                int sum = 0;
+                int count = 0;
+                for (int k = -1; k < 2; k++) {
+                    for (int l = -1; l < 2; l++) {
+                        int x = i + k;
+                        int y = j + l;
+                        if (x >= 0 && x < M.length && y >= 0 && y < M[0].length) {
+                            sum += M[x][y];
+                            count++;
+                        }
+                    }
+                }
+                rst[i][j] = sum / count;
+            }
+        }
+        return rst;
     }
 }

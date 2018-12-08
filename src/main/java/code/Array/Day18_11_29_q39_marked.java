@@ -1,4 +1,4 @@
-package code;
+package code.Array;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,9 +15,10 @@ public class Day18_11_29_q39_marked {
 //            }
 //            System.out.println();
 //        }
-        int[] test = new int[]{2, 3, 6, 7};
-        System.out.println(q39_My(test, 7));
-
+        //int[] test = new int[]{2, 3, 6, 7};
+        //System.out.println(q39_My(test, 7));
+        String test = "0101110";
+        System.out.println(q926_My(test));
     }
 
     private static void q48_My(int[][] matrix) {
@@ -83,14 +84,22 @@ public class Day18_11_29_q39_marked {
         }
     }
 
-    private int q926_My(String s) {
-        List<Integer> pos = new ArrayList<>();
-        for (int i = 0; i < s.length(); i++) {
-            if ((s.charAt(i) == '0') && ((s.charAt(i + 1) == '1') || i == s.length() - 1)) {
-                pos.add(i);
-            }
-        }
-
+    // 诶... 自己做的不对，而且还遗漏一个条件吧..
+    private static int q926_My(String S) {
         return 0;
+    }
+
+    // 官方解法就很机智了: 叫Prefix Sum, 很形象, 记录当前位置之前1的个数P[i](不包括自己),
+    // 那么P[0]为初始的0, 那么之前需要翻转的次数为P[i],之后需要翻转的次数为S.length() - 计算翻转位置 - (P[S.length] - P[计算翻转位置])
+    private static int q926_solution(String S) {
+        int[] sums = new int[S.length() + 1];
+        for (int i = 0; i < S.length(); i++) {
+            sums[i + 1] = sums[i] + S.charAt(i) == '1' ? 1 : 0;
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < sums.length; i++) {
+            min = Math.min(min, sums[i] + sums[sums.length - 1] - sums[i] );
+        }
+        return min;
     }
 }

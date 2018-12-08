@@ -1,4 +1,4 @@
-package code;
+package code.Array;
 
 import java.util.HashSet;
 import java.util.Stack;

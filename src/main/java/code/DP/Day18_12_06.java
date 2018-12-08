@@ -33,11 +33,16 @@ public class Day18_12_06 {
     }
 
     private static boolean q877_solution(int[] piles) {
-        int sum = 0;
+        int N = piles.length;
+        int[][] f = new int[N][N];
+        for (int size = 2; size < N; size++) {
+            for (int i = 0, j = i + size - 1; i < N + 1 - size; i++) {
+                if (size % 2 == 0) {
+
+                }
+            }
+        }
+
         return false;
-    }
-
-    private static void process(int[] piles, int[][] rst, int start, int end) {
-
     }
 }
