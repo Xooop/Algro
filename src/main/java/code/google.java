@@ -31,14 +31,9 @@ public class google {
 //                e = e.add(BigDecimal.ONE.divide(fact, mc), mc);
 //            }
 //            char[] e1 = e.toString().toCharArray();
-//            System.out.println(iterNum - 1);
-//            System.out.println(e.toString());
-//            System.out.println(tmp.add(new BigDecimal(iterNum)));
-//            fact.multiply(tmp.add(new BigDecimal(iterNum)));
+//            fact = fact.multiply(tmp.add(new BigDecimal(iterNum)));
 //            e = e.add(BigDecimal.ONE.divide(fact, mc), mc);
 //            char[] e2 = e.toString().toCharArray();
-//            System.out.println(iterNum);
-//            System.out.println(e.toString());
 //            int k;
 //            for (k = 0; k <= PRECITION; k++) {
 //                if (e1[k] != e2[k]) {
@@ -51,9 +46,8 @@ public class google {
 //            String content = tmp.add(new BigDecimal(iterNum)).toString() + "\t"
 //                    + (k + 1) + "\t"
 //                    + String.valueOf(rst) + "\n";
-////            contentToFile(filePath, content);
+//            contentToFile(filePath, content);
 //        }
-        System.out.println(getE(10000, 50));
     }
 
     private static String getE(int PRECISION, int N) {
@@ -64,24 +58,14 @@ public class google {
             fact = fact.multiply(new BigDecimal(i));
             e = e.add(BigDecimal.ONE.divide(fact, mc), mc);
         }
-        System.out.println(N - 1);
-        System.out.println(e.toString());
         char[] e1 = e.toString().toCharArray();
         fact = fact.multiply(new BigDecimal(String.valueOf(N)));
         e = e.add(BigDecimal.ONE.divide(fact, mc), mc);
         char[] e2 = e.toString().toCharArray();
-        System.out.println(N);
-        System.out.println(e.toString());
         int i;
-//        for (i = 0; e1[i] == e2[i]; i++);
-        for (i = 0; i <= PRECISION; i++) {
-            if (e1[i] != e2[i]) {
-                i--;
-                break;
-            }
-        }
-        char[] rst = new char[i + 1];
-        System.arraycopy(e1, 0, rst, 0, i + 1);
+        for (i = 0; e1[i] == e2[i]; i++);
+        char[] rst = new char[i];
+        System.arraycopy(e1, 0, rst, 0, i);
         return String.valueOf(rst);
     }
 
