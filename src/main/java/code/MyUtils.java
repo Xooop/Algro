@@ -111,6 +111,10 @@ public class MyUtils {
         return System.getProperty("user.dir");
     }
 
+    public static void print(Object array) {
+        print(array, "\t");
+    }
+
     /**
      * for print every element in array, default separator is "\t"
      *
@@ -135,8 +139,9 @@ public class MyUtils {
                 print(o, sep);
             }
         } else {
-            throw new IllegalArgumentException("array type not included, swap failed.");
+            throw new IllegalArgumentException("array type not included, print failed.");
         }
+        System.out.println();
     }
 
     public static int max(int... params) {
