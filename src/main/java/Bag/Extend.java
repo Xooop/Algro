@@ -1,15 +1,12 @@
 package Bag;
 
-import code.MyUtils;
-
 import java.util.*;
 
 public class Extend {
-    public static void main(String[] args) {
-        int[][] items = new int[][]{{3, 4}, {1, 2}, {2, 5}, {3, 7}};
-        bag_01_total_opt(items, 4);
-//        bag_01_with_plan(items, 4);
-    }
+//    public static void main(String[] args) {
+//        int[][] items = new int[][]{{2, 3}, {2, 3}, {3, 2}};
+//        bag_01_total_opt(items, 4);
+//    }
 
     /**
      * 一种引申的题型是二维费用的题目, 只要将费用那块的 M -> M, N 即可
@@ -140,8 +137,9 @@ public class Extend {
         }
 
         List<Integer> result = new ArrayList<>();
-        i = items.length; j = M;
-        while(dp[i][j] != 0) {
+        i = items.length;
+        j = M;
+        while (dp[i][j] != 0) {
             if (dp[i][j] != dp[i - 1][j]) {
                 result.add(i);
                 j -= items[i - 1][0];
@@ -152,6 +150,7 @@ public class Extend {
         System.out.println(result);
         System.out.println(dp[items.length][M]);
     }
+
     /**
      * 求背包问题的方案总数
      * 这里以完全背包问题为例子
@@ -167,28 +166,88 @@ public class Extend {
         return dp[items.length][M];
     }
 
+    /**
+     * 求最优方案的总数
+     */
     public static void bag_01_total_opt(int[][] items, int M) {
         int[][] dp = new int[items.length + 1][M + 1];
         int[][] g = new int[items.length + 1][M + 1];
         for (int i = 1; i <= items.length; i++) {
-            for (int j = 1; j <= M; j++) {
-                dp[i][j] = Math.max(dp[i - 1][j], j - items[i - 1][0] >= 0 ? (dp[i - 1][j - items[i - 1][0]] + items[i - 1][1]) : 0);
-                g[i][j] = 0;
+            for (int j = 0; j <= M; j++) {
+                int cost = items[i - 1][0]; int value = items[i - 1][1];
+                dp[i][j] = Math.max(dp[i - 1][j], j - cost >= 0 ? (dp[i - 1][j - cost] + value) : 0);
+                // 以前有多少种方案就是多少种方案
                 if (dp[i][j] == dp[i - 1][j]) {
-                    g[i][j]++;
-                    g[i - 1][j]++;
+                    g[i][j] += g[i - 1][j];
                 }
-                if (j - items[i - 1][0] >= 0 && dp[i][j] == dp[i - 1][j - items[i - 1][0]] + items[i - 1][1]) {
-                    g[i][j]++;
-                    g[i - 1][j - items[i - 1][0]]++;
+                // 取了现在这个之后，就创造了一种方案，所以最少是1
+                if (j - cost >= 0 && dp[i][j] == dp[i - 1][j - cost] + value) {
+                    g[i][j] += g[i - 1][j - cost] == 0 ? 1 : g[i - 1][j - cost];
                 }
-                System.out.println("dp");
-                MyUtils.print(dp);
-                System.out.println("g");
-                MyUtils.print(g);
             }
         }
     }
 
+    private static int totalPrice(int categoryCount, int totalVolume, int totalWeight, int[] volume, int[] weight,
+                                  int[] stock, int[] price, int[] itemType) {
+        Map<Integer, List<Integer>> groups = new HashMap<>();
+        int i = 0;
+        while(itemType[i] != 0) {
+            List<Integer> group = groups.getOrDefault(itemType[i], new ArrayList<>());
+            group.add(i);
+            groups.put(itemType[i], group);
+        }
+        int[][] dp = new int[totalVolume + 1][totalWeight + 1];
+        // 2 4 先上了
+        List<Integer> idxs = groups.getOrDefault(2, new ArrayList<>());
+        idxs.addAll(groups.getOrDefault(4, new ArrayList<>()));
+        for(int idx : idxs) {
+            int stk = stock[idx]; int vol = volume[idx]; int w = weight[idx];
+        }
+
+
+        // 分别再上1, 3
+
+
+
+
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String[] line = in.nextLine().split(",");
+        //总共商品种类
+        int categoryCount = Integer.valueOf(line[0]);
+        //快递体积
+        int totalVolume = Integer.valueOf(line[1]);
+        //快递重量
+        int totalWeight = Integer.valueOf(line[2]);
+
+        //物品体积
+        int[] volume = new int[50];
+        //重量
+        int[] weight = new int[50];
+        //件数
+        int[] stock = new int[50];
+        //价格
+        int[] price = new int[50];
+        //类型
+        int[] itemType = new int[50];
+
+        for (int i = 1; i <= categoryCount; i++) {
+            line = in.nextLine().split(",");
+            volume[i] = Integer.valueOf(line[0]);
+            weight[i] = Integer.valueOf(line[1]);
+            stock[i] = Integer.valueOf(line[2]);
+            price[i] = Integer.valueOf(line[3]);
+            itemType[i] = Integer.valueOf(line[4]);
+        }
+
+        in.close();
+
+        System.out.println(totalPrice(categoryCount, totalVolume, totalWeight, volume, weight, stock, price, itemType));
+
+    }
 
 }

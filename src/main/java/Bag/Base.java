@@ -2,7 +2,9 @@ package Bag;
 
 import code.MyUtils;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Base {
     public static void main(String[] args) {
@@ -19,8 +21,18 @@ public class Base {
 //        in.close();
 ////        System.out.println(bag_01(items, M));
 //        System.out.println(bag_complete(items, M));
-        int[][] items = new int[][]{{3, 4}, {1, 2}, {2, 5}, {3, 7}};
-        System.out.println(bag_complete(items, 4));
+//        int[][] items = new int[][]{{3, 4}, {1, 2}, {2, 5}, {3, 7}};
+//        System.out.println(bag_complete(items, 4));
+        Set<Integer> a = new HashSet<>();
+        a.add(1);
+        a.add(2);
+        Set<Integer> b1 = new HashSet<>(a);
+        Set<Integer> b2 = new HashSet<>(a);
+        b1.remove(3);
+        System.out.println(b1);
+        System.out.println(b2);
+
+
     }
 
     /**
