@@ -20,7 +20,7 @@ public class Base {
 ////        System.out.println(bag_01(items, M));
 //        System.out.println(bag_complete(items, M));
         int[][] items = new int[][]{{3, 4}, {1, 2}, {2, 5}, {3, 7}};
-        System.out.println(bag_01(items, 4));
+        System.out.println(bag_complete(items, 4));
     }
 
     /**
@@ -48,6 +48,7 @@ public class Base {
         int[] dp = new int[M + 1];
         for (int i = 0; i < items.length; i++) {
             bag_complete(items[i][0], items[i][1], M, dp);
+            MyUtils.print(dp);
         }
         return dp[M];
     }

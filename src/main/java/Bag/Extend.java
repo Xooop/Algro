@@ -7,7 +7,8 @@ import java.util.*;
 public class Extend {
     public static void main(String[] args) {
         int[][] items = new int[][]{{3, 4}, {1, 2}, {2, 5}, {3, 7}};
-        bag_01_with_plan(items, 4);
+        bag_01_total_opt(items, 4);
+//        bag_01_with_plan(items, 4);
     }
 
     /**
@@ -155,6 +156,39 @@ public class Extend {
      * 求背包问题的方案总数
      * 这里以完全背包问题为例子
      */
+    public static int bag_complete_total(int[][] items, int M) {
+        int[][] dp = new int[items.length + 1][M + 1];
+        dp[0][0] = 1;
+        for (int i = 1; i <= items.length; i++) {
+            for (int j = 0; j <= M; j++) {
+                dp[i][j] = dp[i - 1][j] + (j - items[i - 1][0] >= 0 ? dp[i][j - items[i - 1][0]] : 0);
+            }
+        }
+        return dp[items.length][M];
+    }
+
+    public static void bag_01_total_opt(int[][] items, int M) {
+        int[][] dp = new int[items.length + 1][M + 1];
+        int[][] g = new int[items.length + 1][M + 1];
+        for (int i = 1; i <= items.length; i++) {
+            for (int j = 1; j <= M; j++) {
+                dp[i][j] = Math.max(dp[i - 1][j], j - items[i - 1][0] >= 0 ? (dp[i - 1][j - items[i - 1][0]] + items[i - 1][1]) : 0);
+                g[i][j] = 0;
+                if (dp[i][j] == dp[i - 1][j]) {
+                    g[i][j]++;
+                    g[i - 1][j]++;
+                }
+                if (j - items[i - 1][0] >= 0 && dp[i][j] == dp[i - 1][j - items[i - 1][0]] + items[i - 1][1]) {
+                    g[i][j]++;
+                    g[i - 1][j - items[i - 1][0]]++;
+                }
+                System.out.println("dp");
+                MyUtils.print(dp);
+                System.out.println("g");
+                MyUtils.print(g);
+            }
+        }
+    }
 
 
 }
