@@ -1,5 +1,7 @@
 package Bag;
 
+import code.MyUtils;
+
 import java.util.*;
 
 public class Extend {
@@ -174,7 +176,8 @@ public class Extend {
         int[][] g = new int[items.length + 1][M + 1];
         for (int i = 1; i <= items.length; i++) {
             for (int j = 0; j <= M; j++) {
-                int cost = items[i - 1][0]; int value = items[i - 1][1];
+                int cost = items[i - 1][0];
+                int value = items[i - 1][1];
                 dp[i][j] = Math.max(dp[i - 1][j], j - cost >= 0 ? (dp[i - 1][j - cost] + value) : 0);
                 // 以前有多少种方案就是多少种方案
                 if (dp[i][j] == dp[i - 1][j]) {
@@ -191,27 +194,52 @@ public class Extend {
     private static int totalPrice(int categoryCount, int totalVolume, int totalWeight, int[] volume, int[] weight,
                                   int[] stock, int[] price, int[] itemType) {
         Map<Integer, List<Integer>> groups = new HashMap<>();
-        int i = 0;
-        while(itemType[i] != 0) {
+        int i = 1;
+        while (itemType[i] != 0) {
             List<Integer> group = groups.getOrDefault(itemType[i], new ArrayList<>());
             group.add(i);
             groups.put(itemType[i], group);
+            i++;
         }
+        System.out.println(groups);
         int[][] dp = new int[totalVolume + 1][totalWeight + 1];
         // 2 4 先上了
         List<Integer> idxs = groups.getOrDefault(2, new ArrayList<>());
         idxs.addAll(groups.getOrDefault(4, new ArrayList<>()));
-        for(int idx : idxs) {
-            int stk = stock[idx]; int vol = volume[idx]; int w = weight[idx];
+        System.out.println(idxs);
+        for (int idx : idxs) {
+            int stk = stock[idx];
+            int vol = volume[idx];
+            int w = weight[idx];
+            int p = price[idx];
+            bag_2d_multi(vol, w, p, stk, totalVolume, totalWeight, dp);
         }
-
-
+        MyUtils.print(dp);
+        int[][] tmp = new int[totalVolume + 1][totalWeight + 1];
+        for (int j = 0; j <= totalVolume; j++) {
+            tmp[j] = Arrays.copyOf(dp[j], totalWeight + 1);
+        }
+        System.out.println(groups.getOrDefault(1, new ArrayList<>()));
+        System.out.println(groups.getOrDefault(3, new ArrayList<>()));
         // 分别再上1, 3
+        for (int idx : groups.getOrDefault(1, new ArrayList<>())) {
+            int stk = stock[idx];
+            int vol = volume[idx];
+            int w = weight[idx];
+            int p = price[idx];
+            bag_2d_multi(vol, w, p, stk, totalVolume, totalWeight, dp);
+        }
+        MyUtils.print(dp);
 
-
-
-
-        return 0;
+        for (int idx : groups.getOrDefault(3, new ArrayList<>())) {
+            int stk = stock[idx];
+            int vol = volume[idx];
+            int w = weight[idx];
+            int p = price[idx];
+            bag_2d_multi(vol, w, p, stk, totalVolume, totalWeight, tmp);
+        }
+        MyUtils.print(tmp);
+        return Math.max(dp[totalVolume][totalWeight], tmp[totalVolume][totalWeight]);
     }
 
     public static void main(String[] args) {
